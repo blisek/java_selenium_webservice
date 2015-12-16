@@ -1,6 +1,7 @@
 package com.starterkit.selenium.books;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,7 +9,7 @@ import org.junit.Test;
 
 import com.starterkit.selenium.books.pages.BooksPage;
 
-public class BookActionsTest extends AbstractSeleniumTest {
+public class BookRemoveTest extends AbstractSeleniumTest {
 	
 	private BooksPage booksPage;
 
@@ -26,10 +27,13 @@ public class BookActionsTest extends AbstractSeleniumTest {
 	@Test
 	public void shouldRemoveBook() {
 		int booksCountBefore = booksPage.getNumberOfBooks();
-		int booksCountAfter = booksPage.deleteFirstBook().getNumberOfBooks();
+		int booksCountAfter = booksPage.deleteFirstBook()
+				.waitUntilFlashMessageAppears()
+				.getNumberOfBooks();
 		
 		assertFalse(booksPage.hasErrors());
 		assertEquals(booksCountBefore-1, booksCountAfter);
 	}
 
+	
 }
